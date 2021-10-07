@@ -1,1 +1,1 @@
-# inifinite-practice
+# infinite-practice
