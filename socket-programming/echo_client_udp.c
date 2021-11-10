@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
     serv_adr.sin_addr.s_addr = inet_addr(argv[1]);
     serv_adr.sin_port = htons(atoi(argv[2]));
 
+    connect(sock, (struct sockaddr *)&serv_adr, sizeof(servadr));
+
     while (1)
     {
         fputs("Insert message(q to quit) ", stdout);
@@ -45,7 +47,8 @@ int main(int argc, char *argv[])
         }
 
         sendto(sock, message, strlen(message), 0, (struct sockaddr *)&serv_adr, sizeof(serv_adr));
-        adr_sz = sizeof(from_adr);
+
+        write(sock, message, strlen(message));
         str_len = recvfrom(sock, message, BUF_SIZE, 0, (struct sockaddr *)&from_adr, &adr_sz);
         message[str_len] = 0;
         printf("Message from server: %s", message);
