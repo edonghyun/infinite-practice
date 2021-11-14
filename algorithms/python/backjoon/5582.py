@@ -27,35 +27,37 @@ https://www.acmicpc.net/problem/5582
 import collections
 
 
-def solve():
-    return
+def lcs(n, string1, string2):
+    if n == 0:
+        return 0
+
+    value = lcs(n-1, string1, string2)
+    if string1[n-1] == string2[n-1]:
+        return value + 1
+    return value
 
 
 if __name__ == '__main__':
-    # with open('5582.txt') as f:
-    #     inputs = [
-    #         i.strip() for i in f.readlines()
-    #     ]
-    #     string_1 = inputs.pop(0)
-    #     string_2 = inputs.pop(0)
+    with open('5582.txt') as f:
+        inputs = [
+            i.strip() for i in f.readlines()
+        ]
+        string_1 = inputs.pop(0)
+        string_2 = inputs.pop(0)
 
-    #     longer = string_1 if len(string_1) > len(string_2) else string_2
-    #     shorter = string_1 if len(string_2) >= len(string_1) else string_2
+        longer = string_1 if len(string_1) > len(string_2) else string_2
+        shorter = string_1 if len(string_2) >= len(string_1) else string_2
 
-    #     max_length = 0
-    #     shorter_length = len(shorter)
-    #     found = False
-    #     for length in range(shorter_length, 0, -1):
-    #         if found:
-    #             break
-    #         for start_index in range(0, shorter_length - length):
-    #             if found:
-    #                 break
-    #             string = ''
-    #             for delta in range(length):
-    #                 string += shorter[start_index + delta]
-    #             if string in longer:
-    #                 print(len(string))
-    #                 found = True
-    #     if not found:
-    #         print(0)
+        max_length = 0
+        for start_index in range(len(longer)-len(shorter)+1):
+            t = lcs(
+                len(shorter),
+                shorter,
+                longer[start_index:len(shorter)+start_index],
+            )
+            max_length = max(
+                max_length,
+                t,
+            )
+            print(t, shorter, longer[start_index:len(shorter)+start_index])
+        print(max_length)
